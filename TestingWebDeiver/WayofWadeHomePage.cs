@@ -8,60 +8,60 @@ using System.Threading.Tasks;
 
 namespace TestingWebDeiver
 {
-    internal class WayofWadeHomePage
+    internal class WayofWadeHomePage :IDisposable
     {
         private const string URL = "https://www.wayofwade.com/";
-
-        private readonly By _syButton = By.XPath("//button[@class='btn -big']");
-        private readonly By _mainTextArea = By.XPath("//textarea[@id='postform-text']");
-        private readonly By _titleInput = By.XPath("//input[@id='postform-name']");
-        private readonly By _tenMinOptions = By.XPath("//li[text()='10 Minutes']");
-        private readonly By _listSpan = By.Id(("select2-postform-expiration-container"));
-        private readonly By _highlightSpan = By.Id(("/html/body/div[1]/div[2]/div[1]/div[2]/div/form/div[5]/div[1]/div[3]/div/span/span[1]/span/span[1]"));
-
+        private int sleepMill = 500;
+        private readonly By _closeButton = By.CssSelector("#shopify-section-header_banner > div > div > div > div:nth-child(4)");
+        private readonly By _searchButton = By.CssSelector("#shopify-section-header_3 > div > div > div > div.col-lg-auto.col-md-4.col-3.tr.col_group_btns > div > a.icon_search.push_side.cb.chp");
+        private readonly By _searchInput = By.CssSelector("#nt_search_canvas > div > div.mini_cart_wrap > form > div.frm_search_input.pr.oh > input");
+        private readonly By _searchResult = By.CssSelector("#nt_search_canvas > div > div.mini_cart_wrap.atc_opended_rs.atc_show_rs > div.search_header__content.mini_cart_content.fixcl-scroll.widget > div > div.js_prs_search > div > div.col.widget_if_pr > a");
 
         private IWebDriver _driver;
-        public WayofWadeHomePage openPage()
+        public WayofWadeHomePage OpenPage()
         {
             _driver.Navigate().GoToUrl(URL);
+            Thread.Sleep(sleepMill);
+            try
+            {
+                _driver.FindElement(_closeButton).Click();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine("-------------Error-------------");
+                Console.WriteLine(e.Message);
+                Console.WriteLine("-------------------------------");
+            }
+            finally
+            {
+                Thread.Sleep(sleepMill);
+            }
             return this;
 
         }
-        public WayofWadeHomePage writeTextToArea(string text)
+        public string GetSearchResult()
         {
-            _driver.FindElement(_mainTextArea).SendKeys(text);
-            return this;
+            return _driver.FindElement(_searchResult).Text;
         }
-
-        public WayofWadeHomePage writeTitle(string text)
+        public WayofWadeHomePage OpenSearchBlock()
         {
-            _driver.FindElement(_titleInput).SendKeys(text);
+            _driver.FindElement(_searchButton).Click();
+            Thread.Sleep(2 * sleepMill);
             return this;
         }
-        public WayofWadeHomePage selectOptionsByXPath(string xpath)
+        public WayofWadeHomePage WriteTextToArea(string text)
         {
-
-            _driver.FindElement(_listSpan).Click();
-            _driver.FindElement(By.XPath(xpath)).Click();
+            _driver.FindElement(_searchInput).SendKeys(text);
+            Thread.Sleep(5 * sleepMill);
             return this;
         }
-
-        public WayofWadeHomePage selectHighlightsByXPath(string xpath)
-        {
-
-            _driver.FindElement(_highlightSpan).Click();
-            _driver.FindElement(By.XPath(xpath)).Click();
-            return this;
-        }
-        //public WayofWadeHomePage createPaste()
-        //{
-        //    _driver.FindElement(_sendButton).Click();
-        //    return this;
-        //}
-
         public WayofWadeHomePage()
         {
-            _driver = new ChromeDriver("C:\\BSTU\\5 sem\\Test\\lab5");
+            _driver = new ChromeDriver();
+        }
+        public void Dispose()
+        {
+            _driver.Dispose();
         }
     }
 }

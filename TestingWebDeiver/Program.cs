@@ -1,18 +1,7 @@
-﻿//using TestingWebDeiver.Pa
-using Newtonsoft.Json.Bson;
-using OpenQA.Selenium.Chrome;
+﻿global using NUnit.Framework;
 using OpenQA.Selenium;
 using System.Collections;
 using TestingWebDeiver;
-using NUnit.Framework;
 
-test5();
-[Test]
-static void test5()
-{
-    var pageHandler = new WayofWadeShoesPage();
-    pageHandler.OpenPage();
-    pageHandler.SelectShoes(1);
-    pageHandler.AddToCart();
-    pageHandler.WriteNumberAddInput(100);
-}
+
+Console.WriteLine("Tests");
