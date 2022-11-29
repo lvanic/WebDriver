@@ -57,7 +57,7 @@ namespace TestingWebDeiver
         }
         public WayofWadeHomePage()
         {
-            _driver = new ChromeDriver();
+            _driver = new ChromeDriver(@"C:\BSTU\3k\drivers\chromedriver.exe");
         }
         public void Dispose()
         {
