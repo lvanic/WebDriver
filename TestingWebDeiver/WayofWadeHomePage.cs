@@ -57,7 +57,9 @@ namespace TestingWebDeiver
         }
         public WayofWadeHomePage()
         {
-            _driver = new ChromeDriver(@"C:\BSTU\3k\drivers");
+            var options = new ChromeOptions();
+            options.AddArgument("headless");
+            _driver = new ChromeDriver(@"C:\BSTU\3k\drivers", options);
         }
         public void Dispose()
         {

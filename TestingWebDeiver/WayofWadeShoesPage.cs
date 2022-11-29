@@ -80,9 +80,11 @@ namespace TestingWebDeiver
             Thread.Sleep(sleepMill);
             return this;
         }
-        public WayofWadeShoesPage()
+        public WayofWadeShoesPage()         
         {
-            _driver = new ChromeDriver(@"C:\BSTU\3k\drivers");
+            var options = new ChromeOptions();
+            options.AddArgument("headless");
+            _driver = new ChromeDriver(@"C:\BSTU\3k\drivers", options);
         }
         public bool IsNotifeShow()
         {
