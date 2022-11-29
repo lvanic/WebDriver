@@ -28,7 +28,7 @@ namespace TestingWebDeiver
             pageHandler.WriteTextToArea($"Sneakers Wade 001 {"South Beach"} ");
             string actual = pageHandler.GetSearchResult();
 
-            Assert.AreEqual(expected, "lkdsfl");
+            Assert.AreEqual(expected, actual);
         }
         [Test]
         public void test2()
