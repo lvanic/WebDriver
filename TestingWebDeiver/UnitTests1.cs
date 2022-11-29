@@ -31,6 +31,16 @@ namespace TestingWebDeiver
             Assert.AreEqual(expected, actual);
         }
         [Test]
+        public void test2()
+        {
+            using var pageHandler = new WayofWadeShoesPage();
+            pageHandler.OpenPage();
+            pageHandler.AddToWishList();
+            pageHandler.OpenWishList();
+            var assertHandler = pageHandler.IsWishListAdded();
+            Assert.IsTrue(assertHandler);
+        }
+        [Test]
         public void test4()
         {
             using var pageHandler = new WayofWadeShoesPage();
