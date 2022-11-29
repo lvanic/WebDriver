@@ -82,7 +82,7 @@ namespace TestingWebDeiver
         }
         public WayofWadeShoesPage()
         {
-            _driver = new ChromeDriver(@"C:\BSTU\3k\drivers\chromedriver.exe");
+            _driver = new ChromeDriver(@"C:\BSTU\3k\drivers");
         }
         public bool IsNotifeShow()
         {
