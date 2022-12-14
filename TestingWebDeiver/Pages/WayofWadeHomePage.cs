@@ -1,14 +1,12 @@
-﻿using OpenQA.Selenium;
+﻿using Microsoft.Extensions.Configuration;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using PageObjection;
+using TestingWebDeiver.Utils;
 
-namespace TestingWebDeiver
+namespace TestingWebDeiver.Pages
 {
-    internal class WayofWadeHomePage :IDisposable
+    internal class WayofWadeHomePage : IDisposable
     {
         private const string URL = "https://www.wayofwade.com/";
         private int sleepMill = 500;
@@ -17,6 +15,7 @@ namespace TestingWebDeiver
         private readonly By _searchInput = By.CssSelector("#nt_search_canvas > div > div.mini_cart_wrap > form > div.frm_search_input.pr.oh > input");
         private readonly By _searchResult = By.CssSelector("#nt_search_canvas > div > div.mini_cart_wrap.atc_opended_rs.atc_show_rs > div.search_header__content.mini_cart_content.fixcl-scroll.widget > div > div.js_prs_search > div > div.col.widget_if_pr > a");
 
+        private IConfiguration _configuration;
         private IWebDriver _driver;
         public WayofWadeHomePage OpenPage()
         {
@@ -26,7 +25,7 @@ namespace TestingWebDeiver
             {
                 _driver.FindElement(_closeButton).Click();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine("-------------Error-------------");
                 Console.WriteLine(e.Message);
@@ -57,13 +56,22 @@ namespace TestingWebDeiver
         }
         public WayofWadeHomePage()
         {
-            var options = new ChromeOptions();
-            options.AddArgument("headless");
-            _driver = new ChromeDriver(@"C:\BSTU\3k\drivers", options);
+            _configuration = new ConfigurationBuilder()
+                .AddJsonFile(@"C:\Users\polza\source\repos\TestingWebDeiver\TestingWebDeiver\appsettings.json", optional: true, reloadOnChange: true)
+                .AddEnvironmentVariables()
+                .Build();
+
+            _driver = Drivers.GetDriver();
+            sleepMill = Convert.ToInt16(_configuration["sleep"]);
         }
         public void Dispose()
         {
             _driver.Dispose();
+        }
+
+        public static implicit operator WayofWadeHomePage(PageFactory v)
+        {
+            return new WayofWadeHomePage();
         }
     }
 }
